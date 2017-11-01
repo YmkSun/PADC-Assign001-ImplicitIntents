@@ -1,8 +1,10 @@
 package com.androidapp.yemyokyaw.implicitintents;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText inputText;
     static final int REQUEST_IMAGE_OPEN = 1;
+    static final int REQUEST_SELECT_PHONE_NUMBER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickPhCallBtn(View view) {
-        String regex = "^[0-9]*$";
         String shareText = inputText.getText().toString();
-        if(!shareText.isEmpty() && shareText.matches(regex)){
+        if(!shareText.isEmpty()){
             Intent intent = new Intent(Intent.ACTION_DIAL)
                 .setData(Uri.parse("tel:" + shareText));
             if (intent.resolveActivity(getPackageManager()) != null)
@@ -101,11 +103,32 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
     }
 
+    public void selectContact(View view) {
+        // Start an activity for the user to pick a phone number from contacts
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_OPEN && resultCode == RESULT_OK) {
             Uri fullPhotoUri = data.getData();
             Toast.makeText(MainActivity.this,"Image from '" + fullPhotoUri + "' is now selected...",Toast.LENGTH_LONG).show();
+        }
+        if (requestCode == REQUEST_SELECT_PHONE_NUMBER && resultCode == RESULT_OK) {
+            Uri contactUri = data.getData();
+            String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER};
+            Cursor cursor = getContentResolver().query(contactUri, projection,
+                    null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String number = cursor.getString(numberIndex);
+                inputText.setText(number);
+            }
         }
     }
 

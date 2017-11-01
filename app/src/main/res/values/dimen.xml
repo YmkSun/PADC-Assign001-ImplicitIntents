@@ -5,4 +5,5 @@
     <dimen name="btn_txt_size">16sp</dimen>
     <dimen name="input_txt_size">20sp</dimen>
     <dimen name="btn_padding_size">20dp</dimen>
+    <dimen name="et_design_height">55dp</dimen>
 </resources>
