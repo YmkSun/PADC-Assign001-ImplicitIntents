@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Implicit Intents</string>
+    <string name="tv_input">Input</string>
+    <string name="btn_share_compat">Share input to Messenger (ShareCompat)</string>
+    <string name="btn_location">Navigating on the Map</string>
+    <string name="btn_call">Making Phone Calls</string>
+    <string name="btn_mail">Sending Emails</string>
+    <string name="btn_camera">Taking picture with Camera</string>
+    <string name="btn_photo">Selecting Picture from device storage</string>
+    <string name="btn_calendar">Saving event in user’s calendar</string>
 </resources>

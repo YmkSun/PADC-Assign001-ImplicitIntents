@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_padding_size">16dp</dimen>
+    <dimen name="input_padding_size">10dp</dimen>
+    <dimen name="btn_txt_size">16sp</dimen>
+    <dimen name="input_txt_size">20sp</dimen>
+    <dimen name="btn_padding_size">20dp</dimen>
+</resources>
